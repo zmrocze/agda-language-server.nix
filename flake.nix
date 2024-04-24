@@ -8,8 +8,8 @@
     nixpkgs.url = "github:NixOs/nixpkgs/23.11";
     flake-utils.url = "github:numtide/flake-utils";
     agda-language-server = {
-      # url = "github:agda/agda-language-server";
-      url = "github:zmrocze/agda-language-server?ref=c2ae939";
+      url = "github:agda/agda-language-server";
+      # url = "github:zmrocze/agda-language-server?ref=c2ae939";
       flake = false;
     };
   };
@@ -25,6 +25,26 @@
               src = agda-language-server;
               compiler-nix-name = "ghc928";
               shell.tools = {};
+                modules = [{
+                  # see https://github.com/IntersectMBO/plutus/blob/b97e8be50470065f37948f62dcaa7d67f71b9a39/nix/agda-project.nix#L14 for explanation
+                  # and https://github.com/input-output-hk/haskell.nix/issues/2186 for bug report.
+                  packages.Agda.package.buildType = nixpkgs.lib.mkForce "Simple";
+                  packages.Agda.components.library.enableSeparateDataOutput = nixpkgs.lib.mkForce true;
+                  packages.Agda.components.library.postInstall = ''
+                    # Compile the executable using the package DB we've just made, which contains
+                    # the main Agda library
+                    ghc src/main/Main.hs -package-db=$out/package.conf.d -o agda
+
+                    # Find all the files in $data
+                    shopt -s globstar
+                    files=($data/**/*.agda)
+                    for f in "''${files[@]}" ; do
+                      echo "Compiling $f"
+                      # This is what the custom setup calls in the end
+                      ./agda --no-libraries --local-interfaces $f
+                    done
+                  '';
+                }];
             };
         })
       ];

@@ -19,16 +19,15 @@
     "agda-language-server": {
       "flake": false,
       "locked": {
-        "lastModified": 1713466970,
-        "narHash": "sha256-l97fl4ZxM/KP+vQ3+7f9c9HYIeDRZdM9LsIe/j3pVj0=",
-        "owner": "zmrocze",
+        "lastModified": 1702713095,
+        "narHash": "sha256-ncqq/1t/dIwtDTKIW0qTRc/q6xuBa4N8uyqyq2GQT1o=",
+        "owner": "agda",
         "repo": "agda-language-server",
-        "rev": "c2ae939fcc041bcb1e4a5f1f8bacc88434f49d16",
+        "rev": "d6a02745a554871b6db24217ccc494bc6d46a904",
         "type": "github"
       },
       "original": {
-        "owner": "zmrocze",
-        "ref": "c2ae939",
+        "owner": "agda",
         "repo": "agda-language-server",
         "type": "github"
       }
