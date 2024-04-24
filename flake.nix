@@ -7,9 +7,9 @@
     # nixpkgs.follows = "haskellNix/nixpkgs-unstable";
     nixpkgs.url = "github:NixOs/nixpkgs/23.11";
     flake-utils.url = "github:numtide/flake-utils";
-    # url = "git+file:/home/zmrocze/code/packages/agda-language-server?ref=c2ae939";
     agda-language-server = {
-      url = "github:agda/agda-language-server";
+      # url = "github:agda/agda-language-server";
+      url = "github:zmrocze/agda-language-server?ref=c2ae939";
       flake = false;
     };
   };
@@ -32,6 +32,9 @@
       flake = pkgs.helloProject.flake {};
     in flake // {
       # Built by `nix build .`
-      packages.default = flake.packages."agda-language-server:exe:als";
+      packages.default = (flake.packages."agda-language-server:exe:als");
+      # .overrideAttrs (oldAttrs: oldAttrs // {
+      #   # installInputs = [ pkgs.zlib ] ;
+      # });
     });
 }
